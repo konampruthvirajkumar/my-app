@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -8,15 +10,12 @@ import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import Grid from "@material-ui/core/Grid";
 import { SimpleTabs } from "./ansible.tabs.component";
 import AnsibleStepper from "./ansible.stepper.component";
-import { useSelector } from "react-redux";
 import { getUser } from "../redux/selectors/user.selectors";
+import { savePlayBook } from "../redux/actions/form.actions";
 
 const drawerWidth = 240;
 
@@ -47,9 +46,8 @@ const useStyles = makeStyles(theme => ({
 export default function Ansible() {
   const classes = useStyles();
   const user = useSelector(state => getUser(state));
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  console.log("User ", user);
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -72,21 +70,11 @@ export default function Ansible() {
         <Divider />
         <List>
           {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
+            <ListItem
+              button
+              key={text}
+              onClick={() => dispatch(savePlayBook(text))}
+            >
               <ListItemText primary={text} />
             </ListItem>
           ))}

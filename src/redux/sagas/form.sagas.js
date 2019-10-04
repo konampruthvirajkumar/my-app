@@ -1,7 +1,7 @@
 import { put, takeEvery, call, select } from "redux-saga/effects";
 import axios from "axios";
 import { loadTableResultsSuccess } from "../actions/table.actions";
-import { getUser } from "../selectors/user.selectors";
+import { getSelectedPlayBook } from "../selectors/form.selectors";
 
 function fetchQuakes() {
   return axios.get(
@@ -12,8 +12,8 @@ function fetchQuakes() {
 export function* workerCreatePreflight(action) {
   try {
     console.log("form", action);
-    let test = yield select(getUser);
-    console.log(test);
+    let playBook = yield select(getSelectedPlayBook);
+    console.log(playBook);
     let resp = yield call(fetchQuakes);
 
     yield put(loadTableResultsSuccess(resp.data));

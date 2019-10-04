@@ -9,8 +9,8 @@ import Box from "@material-ui/core/Box";
 import AnsibleForm from "./ansible.form.component";
 import TableResults from "./ansible.table.component";
 import { useDispatch, useSelector } from "react-redux";
-import { loadTableResults } from '../redux/actions/table.actions';
-import { selectTableResults } from '../redux/selectors/table.selectors';
+import { loadTableResults } from "../redux/actions/table.actions";
+import { selectTableResults } from "../redux/selectors/table.selectors";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -55,11 +55,8 @@ const useStyles = makeStyles(theme => ({
 export const SimpleTabs = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
   const tableResults = useSelector(state => selectTableResults(state));
   const dispatch = useDispatch();
-
-  console.log('Tab ', tableResults)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -74,18 +71,22 @@ export const SimpleTabs = () => {
           className={classes.barColor}
         >
           <Tab label="Input" {...a11yProps(0)} />
-          <Tab label="Results" {...a11yProps(1)} onClick={() => dispatch(loadTableResults())} />
+          <Tab
+            label="Results"
+            {...a11yProps(1)}
+            onClick={() => dispatch(loadTableResults())}
+          />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
         <AnsibleForm />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <TableResults tableResults={tableResults}/>
+        <TableResults tableResults={tableResults} />
       </TabPanel>
     </div>
   );
-}
+};
 // const mapStateToProps = state => ({
 //   tableResults: selectTableResults(state),
 // });

@@ -1,8 +1,9 @@
-import { CREATE_PREFLIGHT } from "../actions/form.actions";
+import { CREATE_PREFLIGHT, SAVE_PLAYBOOK } from "../actions/form.actions";
 
 // The initial state of the App
 export const initialState = {
-    values: Object,
+  values: Object,
+  playbook: String
 };
 
 function formReducer(state = initialState, action) {
@@ -10,7 +11,14 @@ function formReducer(state = initialState, action) {
     case CREATE_PREFLIGHT: {
       const newState = {
         ...state,
-        values: action,
+        values: action
+      };
+      return newState;
+    }
+    case SAVE_PLAYBOOK: {
+      const newState = {
+        ...state,
+        playbook: action
       };
       return newState;
     }

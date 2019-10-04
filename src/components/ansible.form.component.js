@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import Radio from "@material-ui/core/Radio";
@@ -12,6 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import { useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import { createPreFlight } from "../redux/actions/form.actions";
+import PlayBookContext from "../components/ansible.component";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -66,7 +67,7 @@ export default function AnsibleForm() {
   //   }
   // });
 
-  console.log(determindDate, ' ', selectedDate);
+  console.log(determindDate, " ", selectedDate);
   return (
     <div>
       <Grid container spacing={3}>
@@ -158,7 +159,11 @@ export default function AnsibleForm() {
                     className={classes.button}
                     onClick={() =>
                       dispatch(
-                        createPreFlight({ values, selectedDate, determindDate })
+                        createPreFlight({
+                          values,
+                          selectedDate,
+                          determindDate
+                        })
                       )
                     }
                   >
