@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -8,6 +9,9 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
+import { useDispatch } from "react-redux";
+import Button from "@material-ui/core/Button";
+import { createPreFlight } from "../redux/actions/form.actions";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -15,21 +19,54 @@ const useStyles = makeStyles(theme => ({
   },
   radioButtons: {
     display: "contents"
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200
   }
 }));
 
 export default function AnsibleForm() {
   const classes = useStyles();
-  const [values, setValues] = React.useState({
-      operatingSystem: 'linux',
-      schedule: 'now',
-      multiline: ''
+  const [values, setValues] = useState({
+    operatingSystem: "linux",
+    schedule: "now",
+    multiline: ""
   });
+
+  const [selectedDate, handleDateChange] = useState(
+    new Date("2018-01-01T00:00:00.000Z")
+  );
+
+  const [determindDate, setDate] = useState(
+    new Date("2018-01-01T00:00:00.000Z")
+  );
+
+  const dispatch = useDispatch();
+
+  const handleScheduleChange = name => event => {
+    if (event.target.value === "now") {
+      setDate(new Date());
+      handleDateChange(null);
+    } else {
+      handleDateChange(selectedDate);
+      setDate(null);
+    }
+    setValues({ ...values, [name]: event.target.value });
+  };
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
 
+  // useEffect(() => {
+  //   if (values.schedule === "now") {
+  //     setValues({ ...values, determineDate: new Date() });
+  //   }
+  // });
+
+  console.log(determindDate, ' ', selectedDate);
   return (
     <div>
       <Grid container spacing={3}>
@@ -71,7 +108,7 @@ export default function AnsibleForm() {
                 aria-label="schedule"
                 name="schedule"
                 value={values.schedule}
-                onChange={handleChange("schedule")}
+                onChange={handleScheduleChange("schedule")}
               >
                 <Grid item xs={6} className={classes.radioButtons}>
                   <div>
@@ -84,6 +121,15 @@ export default function AnsibleForm() {
                       value="schedule"
                       control={<Radio />}
                       label="Schedule"
+                    />
+                    <KeyboardDateTimePicker
+                      variant="dialog"
+                      ampm={true}
+                      value={selectedDate}
+                      onChange={handleDateChange}
+                      onError={console.log}
+                      disablePast
+                      format="MM/d/yyyy h:mm a"
                     />
                   </div>
                 </Grid>
@@ -100,7 +146,24 @@ export default function AnsibleForm() {
                     className={classes.textField}
                     margin="normal"
                     variant="outlined"
+                    fullWidth
                   />
+                </div>
+              </Grid>
+              <Grid item xs={6} lg={6}>
+                <div>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={() =>
+                      dispatch(
+                        createPreFlight({ values, selectedDate, determindDate })
+                      )
+                    }
+                  >
+                    PreFlight
+                  </Button>
                 </div>
               </Grid>
             </FormControl>

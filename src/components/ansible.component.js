@@ -15,8 +15,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import Grid from "@material-ui/core/Grid";
 import { SimpleTabs } from "./ansible.tabs.component";
 import AnsibleStepper from "./ansible.stepper.component";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from '../redux/selectors/user.selectors'
+import { useSelector } from "react-redux";
+import { getUser } from "../redux/selectors/user.selectors";
 
 const drawerWidth = 240;
 
@@ -46,10 +46,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function Ansible() {
   const classes = useStyles();
-  const user = useSelector(state => selectUser(state));
+  const user = useSelector(state => getUser(state));
   // const dispatch = useDispatch();
 
-  console.log('User ', user)
+  console.log("User ", user);
   return (
     <div className={classes.root}>
       <CssBaseline />

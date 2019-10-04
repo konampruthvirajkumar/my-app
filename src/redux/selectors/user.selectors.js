@@ -1,9 +1,9 @@
-import { createSelector } from 'reselect'
-import { initialState } from '../reducers/reducers';
+import { createSelector } from "reselect";
+import { initialState } from "../reducers/reducers";
 // selector
-const selectGlobal = (state) => state.userReducer.user || initialState;
+export const getUserReducer = state => state.userReducer || initialState;
 // reselect function
-export const selectUser = createSelector(
-  selectGlobal ,
-  (user => user.data)
-)
+export const getUser = createSelector(
+  getUserReducer,
+  user => user.user.data
+);

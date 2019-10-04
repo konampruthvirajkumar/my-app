@@ -7,12 +7,14 @@ import { workerGetTableResults } from './sagas/table.sagas';
 import { workerGetUser } from './sagas/user.sagas';
 import tableReducer from './reducers/table.reducers';
 import userReducer from './reducers/user.reducer';
+import formReducer from './reducers/form.reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const reducers = combineReducers({
   tableReducer: tableReducer,
   userReducer: userReducer,
+  formReducer: formReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
